@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TableElement from "../Components/TableElements";
+import TableElement from "../Components/Draws/TableElements";
 import { baseapiurl } from "../Services/constante";
 
 function Draws() {

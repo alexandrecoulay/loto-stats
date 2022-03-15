@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { baseapiurl } from "../../Services/constante";
+import { baseapiurl } from "../Services/constante";
 
 function Charts() {
     const [data, setData] = useState({})
@@ -11,7 +11,6 @@ function Charts() {
             const request = await fetch(`${baseapiurl}/group`);
             const response = await request.json();
 
-            console.log(response);
             setData(response)
         }
         

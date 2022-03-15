@@ -6,11 +6,13 @@ import {
 } from "react-router-dom";
 
 import "../Styles/styles.css";
-import Charts from "./Components/Graphs/Charts";
-import MainPage from "./Components/MainPage";
-import Home from "./Views/Home";
-import Draws from "./Views/Draws";
-import ChartsParts from "./Components/Graphs/Parts";
+import Charts from "../Views/Charts";
+import MainPage from "../Components/Home/MainPage";
+import Home from "../Views/Home";
+import Draws from "../Views/Draws";
+import ChartsParts from "../Views/Parts";
+import Average from "../Views/Average";
+import Create from "../Views/Create";
 
 function App() {
     
@@ -20,9 +22,11 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route exact path="/" element={<Home />} />
+                        <Route exact path="/average" element={<Average />} />
+                        <Route exact path="/prediction" element={<Create />} />
                         <Route exact path="/draws" element={<Draws />} />
                         <Route exact path="/charts" element={<Charts />} />
-                        <Route exact path="/pie" element={<ChartsParts />} />
+                        <Route exact path="/repartition" element={<ChartsParts />} />
                     </Routes>
                 </BrowserRouter>
             </MainPage>

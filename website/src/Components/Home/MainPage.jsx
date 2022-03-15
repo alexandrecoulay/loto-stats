@@ -5,9 +5,11 @@ function MainPage({ children }) {
         <div className="main">
             <nav>
                 <a href="/">Accueil</a>
+                <a href="/prediction">Prediction</a>
+                <a href="/average">Moyenne</a>
                 <a href="/draws">Tirages</a>
                 <a href="/charts">Afficher les graphiques</a>
-                <a href="/pie">Afficher la répartition</a>
+                <a href="/repartition">Afficher la répartition</a>
             </nav>
             { children }
         </div>
