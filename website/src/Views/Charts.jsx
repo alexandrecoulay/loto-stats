@@ -21,12 +21,12 @@ function Charts() {
     return (
         <div className="chart_bar">
             <div className="select_number">
-                <button style={{ textDecoration: page === "first" ? "underline" : "none" }} onClick={() => setPage("first")}>n° 1</button>
-                <button style={{ textDecoration: page === "seconde" ? "underline" : "none" }} onClick={() => setPage("seconde")}>n° 2</button>
-                <button style={{ textDecoration: page === "third" ? "underline" : "none" }} onClick={() => setPage("third")}>n° 3</button>
-                <button style={{ textDecoration: page === "fourth" ? "underline" : "none" }} onClick={() => setPage("fourth")}>n° 4</button>
-                <button style={{ textDecoration: page === "fifth" ? "underline" : "none" }} onClick={() => setPage("fifth")}>n° 5</button>
-                <button style={{ textDecoration: page === "lucky" ? "underline" : "none" }} onClick={() => setPage("lucky")}>n° chance</button>
+                <button style={{ textDecoration: page === "first" ? "underline" : "none" }} onClick={() => setPage("first")}>n° 1 ({data?.total?.first ?? 0})</button>
+                <button style={{ textDecoration: page === "seconde" ? "underline" : "none" }} onClick={() => setPage("seconde")}>n° 2 ({data?.total?.seconde ?? 0})</button>
+                <button style={{ textDecoration: page === "third" ? "underline" : "none" }} onClick={() => setPage("third")}>n° 3 ({data?.total?.third ?? 0})</button>
+                <button style={{ textDecoration: page === "fourth" ? "underline" : "none" }} onClick={() => setPage("fourth")}>n° 4 ({data?.total?.fourth ?? 0})</button>
+                <button style={{ textDecoration: page === "fifth" ? "underline" : "none" }} onClick={() => setPage("fifth")}>n° 5 ({data?.total?.fifth ?? 0})</button>
+                <button style={{ textDecoration: page === "lucky" ? "underline" : "none" }} onClick={() => setPage("lucky")}>n° chance ({data?.total?.lucky ?? 0})</button>
             </div>
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart

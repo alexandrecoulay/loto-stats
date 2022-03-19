@@ -64,7 +64,7 @@ nav a:hover {
 .next-draws .draws .draw{
     display: flex;
     flex-direction: column;
-    
+    width: 25vw;
 }
 
 .next-draws .draws .draw label{

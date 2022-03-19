@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dayjs from "dayjs";
 import drawSchema from "./schema/draws.mjs";
 import numberSchema from "./schema/numbers.mjs";
+import fs from "fs";
 
 import "./db.mjs"
 
@@ -22,6 +23,16 @@ const ArrayAvg = (myArray) => {
         summ = summ + myArray[i++];
     }
     return summ / ArrayLen;
+}
+
+const ArrayTotal = (myArray) => {
+    let i = 0;
+
+    for (let index = 0; index < myArray.length; index++) {
+        i = i + myArray[index].total;
+    }
+
+    return i;
 }
 
 // Add a draw
@@ -79,6 +90,14 @@ app.get("/api/group", async (req, res) => {
     const lucky = await drawSchema.aggregate([{ '$group': { '_id': '$lucky', 'total': { '$sum': 1 }}}, { '$sort': { '_id': 1 }}]);
 
     res.status(200).json({
+        total: {
+            first: ArrayTotal(first),
+            seconde: ArrayTotal(seconde),
+            third: ArrayTotal(third),
+            fourth: ArrayTotal(fourth),
+            fifth: ArrayTotal(fifth),
+            lucky: ArrayTotal(lucky),
+        },
         first: first, 
         seconde: seconde, 
         third: third,
@@ -122,6 +141,8 @@ app.get("/api/create", async (req, res) => {
     const fifth = await drawSchema.aggregate([{ '$group': { '_id': '$fifth', 'total': { '$sum': 1 }}}, { '$sort': { '_id': 1 }}]);
     const lucky = await drawSchema.aggregate([{ '$group': { '_id': '$lucky', 'total': { '$sum': 1 }}}, { '$sort': { '_id': 1 }}]);
 
+    const best = await numberSchema.find({}).sort({ draw: -1 });
+
     const average = {
         first: ArrayAvg(first.map(f => f.total)),
         seconde: ArrayAvg(seconde.map(f => f.total)),
@@ -149,10 +170,44 @@ app.get("/api/create", async (req, res) => {
         lucky: lucky.filter(f => f.total < average.lucky).sort((a, b) => a.total - b.total)
     }
 
+    const best_draws_numbers = {
+        first: best[0]["number"],
+        seconde: best[1]["number"],
+        third: best[2]["number"],
+        fourth: best[3]["number"],
+        fifth: best[4]["number"],
+        lucky: lucky.filter(f => f.total > average.lucky).sort((a, b) => b.total - a.total)[0]["_id"]
+    }
+
     res.status(200).json({
         max_draws: max_draws_numbers,
-        min_draws: min_draws_numbers
+        min_draws: min_draws_numbers,
+        best_draws: best_draws_numbers
     });
+})
+
+// init draws
+
+app.get("/api/draws/init", async (req, res) => {
+    const draws = JSON.parse(fs.readFileSync("./src/csvjson.json", "utf-8"));
+
+    draws.forEach((element) => {
+        
+        const date = element.date_de_tirage.split("/");
+
+        const schema = new drawSchema({
+            first: element.boule_1, 
+            seconde: element.boule_2, 
+            third: element.boule_3,
+            fourth: element.boule_4,
+            fifth: element.boule_5,
+            lucky: element.numero_chance,
+            created_at: dayjs(`${date[1]}-${date[0]}-${date[2]}`).set("h", 20).set('minutes', 30).format()
+        })
+        schema.save();
+    });
+
+    res.sendStatus(200)
 })
 
 // init repartition 
